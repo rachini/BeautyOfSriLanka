@@ -1,0 +1,25 @@
+/* 
+    Document   : drop
+    Created on : Mar 25, 2015, 9:53:38 AM
+    Author     : HP1
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+#drop{
+	border:3px dashed #bbb;
+	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
+	border-radius:5px;
+	padding:70px;
+	text-align:center;
+	font:24pt bold,"Vollkorn";color:#bbb
+            
+  
+
+
+}
+#b64data{
+	width:100%;
+}
