@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <link rel="stylesheet" href="http://localhost:8080/geoserver/openlayers3/ol.css" type="text/css">
+        <link rel="stylesheet" href="http://localhost:1024/geoserver/openlayers3/ol.css" type="text/css">
         <title> Grab the beauty of Sri Lanka</title>
         <style type="text/css">
             .ol-zoom {
@@ -93,12 +93,12 @@
             #map {
                 clear: both;
                 position: relative;
-                width: 464px;
+                width: 460px;
                 height: 768px;
                 border: 1px solid black;
             }
             #wrapper {
-                width: 464px;
+                width: 460px;
             }
             #location {
                 float: right;
@@ -128,148 +128,149 @@
                 font-size: 100%;
                 font-weight: bold;
                 padding: .2em .2em;
-            </style>
-        </head>
-        <body>
-            <!--        <div id="map"></div>-->
+            }
+        </style>
+    </head>
+    <body>
+        <!--        <div id="map"></div>-->
 
 <!--        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false">
         </script>-->
-            <script src="http://localhost:8080/geoserver/openlayers3/ol.js" type="text/javascript"></script>
-    <!--        <script type="text/javascript">
-                var element = document.getElementById("map");
-    
-                /*
-                 Build list of map types.
-                 You can also use var mapTypeIds = ["roadmap", "satellite", "hybrid", "terrain", "OSM"]
-                 but static lists sucks when google updates the default list of map types.
-                 */
-                var mapTypeIds = [];
-                for (var type in google.maps.MapTypeId) {
-                    mapTypeIds.push(google.maps.MapTypeId[type]);
+        <script src="http://localhost:1024/geoserver/openlayers3/ol.js" type="text/javascript"></script>
+<!--        <script type="text/javascript">
+            var element = document.getElementById("map");
+
+            /*
+             Build list of map types.
+             You can also use var mapTypeIds = ["roadmap", "satellite", "hybrid", "terrain", "OSM"]
+             but static lists sucks when google updates the default list of map types.
+             */
+            var mapTypeIds = [];
+            for (var type in google.maps.MapTypeId) {
+                mapTypeIds.push(google.maps.MapTypeId[type]);
+            }
+            mapTypeIds.push("OSM");
+
+            var map = new google.maps.Map(element, {
+                center: new google.maps.LatLng(48.1391265, 11.580186300000037),
+                zoom: 11,
+                mapTypeId: "OSM",
+                mapTypeControlOptions: {
+                    mapTypeIds: mapTypeIds
                 }
-                mapTypeIds.push("OSM");
-    
-                var map = new google.maps.Map(element, {
-                    center: new google.maps.LatLng(48.1391265, 11.580186300000037),
-                    zoom: 11,
-                    mapTypeId: "OSM",
-                    mapTypeControlOptions: {
-                        mapTypeIds: mapTypeIds
-                    }
-                });
-    
-                map.mapTypes.set("OSM", new google.maps.ImageMapType({
-                    getTileUrl: function (coord, zoom) {
-                        // See above example if you need smooth wrapping at 180th meridian
-                        return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
-                    },
-                    tileSize: new google.maps.Size(256, 256),
-                    name: "OpenStreetMap",
-                    maxZoom: 18
-                }));
-            </script>-->
+            });
 
-        <body>
-            <div id="toolbar" style="display: none;">
-                <ul>
-                    <li>
-                        <a>WMS version:</a>
-                        <select id="wmsVersionSelector" onchange="setWMSVersion(value)">
-                            <option value="1.1.1">1.1.1</option>
-                            <option value="1.3.0">1.3.0</option>
-                        </select>
-                    </li>
-                    <li>
-                        <a>Tiling:</a>
-                        <select id="tilingModeSelector" onchange="setTileMode(value)">
-                            <option value="untiled">Single tile</option>
-                            <option value="tiled">Tiled</option>
-                        </select>
-                    </li>
-                    <li>
-                        <a>Antialias:</a>
-                        <select id="antialiasSelector" onchange="setAntialiasMode(value)">
-                            <option value="full">Full</option>
-                            <option value="text">Text only</option>
-                            <option value="none">Disabled</option>
-                        </select>
-                    </li>
-                    <li>
-                        <a>Format:</a>
-                        <select id="imageFormatSelector" onchange="setImageFormat(value)">
-                            <option value="image/png">PNG 24bit</option>
-                            <option value="image/png8">PNG 8bit</option>
-                            <option value="image/gif">GIF</option>
-                            <option id="jpeg" value="image/jpeg">JPEG</option>
-                        </select>
-                    </li>
-                    <li>
-                        <a>Styles:</a>
-                        <select id="imageFormatSelector" onchange="setStyle(value)">
-                            <option value="">Default</option>
-                        </select>
-                    </li>
-                    <li>
-                        <a>Width/Height:</a>
-                        <select id="widthSelector" onchange="setWidth(value)">
-                            <!--
-                            These values come from a statistics of the viewable area given a certain screen area
-                            (but have been adapted a litte, simplified numbers, added some resolutions for wide screen)
-                            You can find them here: http://www.evolt.org/article/Real_World_Browser_Size_Stats_Part_II/20/2297/
-                            --><option value="auto">Auto</option>
-                            <option value="600">600</option>
-                            <option value="750">750</option>
-                            <option value="950">950</option>
-                            <option value="1000">1000</option>
-                            <option value="1200">1200</option>
-                            <option value="1400">1400</option>
-                            <option value="1600">1600</option>
-                            <option value="1900">1900</option>
-                        </select>
-                        <select id="heigthSelector" onchange="setHeight(value)">
-                            <option value="auto">Auto</option>
-                            <option value="300">300</option>
-                            <option value="400">400</option>
-                            <option value="500">500</option>
-                            <option value="600">600</option>
-                            <option value="700">700</option>
-                            <option value="800">800</option>
-                            <option value="900">900</option>
-                            <option value="1000">1000</option>
-                        </select>
-                    </li>
-                    <li>
-                        <a>Filter:</a>
-                        <select id="filterType">
-                            <option value="cql">CQL</option>
-                            <option value="ogc">OGC</option>
-                            <option value="fid">FeatureID</option>
-                        </select>
-                        <input type="text" size="80" id="filter"/>
-                        <a id="updateFilterButton" href="#" onClick="updateFilter()" title="Apply filter">Apply</a>
-                        <a id="resetFilterButton" href="#" onClick="resetFilter()" title="Reset filter">Reset</a>
-                    </li>
-                </ul>
-            </div>
-            <div id="map">
-                <div class="ol-toggle-options ol-unselectable"><a title="Toggle options toolbar" onClick="toggleControlPanel()" href="#toggle">...</a></div>
-            </div>
-            <div id="wrapper">
-                <div id="location"></div>
-                <div id="scale">
-                </div>
-                <div id="nodelist">
-                    <em>Click on the map to get feature info</em>
-                </div>
+            map.mapTypes.set("OSM", new google.maps.ImageMapType({
+                getTileUrl: function (coord, zoom) {
+                    // See above example if you need smooth wrapping at 180th meridian
+                    return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+                },
+                tileSize: new google.maps.Size(256, 256),
+                name: "OpenStreetMap",
+                maxZoom: 18
+            }));
+        </script>-->
 
-                <script type="text/javascript">
-                    var pureCoverage = false;
+    <body>
+        <div id="toolbar" style="display: none;">
+            <ul>
+                <li>
+                    <a>WMS version:</a>
+                    <select id="wmsVersionSelector" onchange="setWMSVersion(value)">
+                        <option value="1.1.1">1.1.1</option>
+                        <option value="1.3.0">1.3.0</option>
+                    </select>
+                </li>
+                <li>
+                    <a>Tiling:</a>
+                    <select id="tilingModeSelector" onchange="setTileMode(value)">
+                        <option value="untiled">Single tile</option>
+                        <option value="tiled">Tiled</option>
+                    </select>
+                </li>
+                <li>
+                    <a>Antialias:</a>
+                    <select id="antialiasSelector" onchange="setAntialiasMode(value)">
+                        <option value="full">Full</option>
+                        <option value="text">Text only</option>
+                        <option value="none">Disabled</option>
+                    </select>
+                </li>
+                <li>
+                    <a>Format:</a>
+                    <select id="imageFormatSelector" onchange="setImageFormat(value)">
+                        <option value="image/png">PNG 24bit</option>
+                        <option value="image/png8">PNG 8bit</option>
+                        <option value="image/gif">GIF</option>
+                        <option id="jpeg" value="image/jpeg">JPEG</option>
+                    </select>
+                </li>
+                <li>
+                    <a>Styles:</a>
+                    <select id="imageFormatSelector" onchange="setStyle(value)">
+                        <option value="">Default</option>
+                    </select>
+                </li>
+                <li>
+                    <a>Width/Height:</a>
+                    <select id="widthSelector" onchange="setWidth(value)">
+                        <!--
+                        These values come from a statistics of the viewable area given a certain screen area
+                        (but have been adapted a litte, simplified numbers, added some resolutions for wide screen)
+                        You can find them here: http://www.evolt.org/article/Real_World_Browser_Size_Stats_Part_II/20/2297/
+                        --><option value="auto">Auto</option>
+                        <option value="600">600</option>
+                        <option value="750">750</option>
+                        <option value="950">950</option>
+                        <option value="1000">1000</option>
+                        <option value="1200">1200</option>
+                        <option value="1400">1400</option>
+                        <option value="1600">1600</option>
+                        <option value="1900">1900</option>
+                    </select>
+                    <select id="heigthSelector" onchange="setHeight(value)">
+                        <option value="auto">Auto</option>
+                        <option value="300">300</option>
+                        <option value="400">400</option>
+                        <option value="500">500</option>
+                        <option value="600">600</option>
+                        <option value="700">700</option>
+                        <option value="800">800</option>
+                        <option value="900">900</option>
+                        <option value="1000">1000</option>
+                    </select>
+                </li>
+                <li>
+                    <a>Filter:</a>
+                    <select id="filterType">
+                        <option value="cql">CQL</option>
+                        <option value="ogc">OGC</option>
+                        <option value="fid">FeatureID</option>
+                    </select>
+                    <input type="text" size="80" id="filter"/>
+                    <a id="updateFilterButton" href="#" onClick="updateFilter()" title="Apply filter">Apply</a>
+                    <a id="resetFilterButton" href="#" onClick="resetFilter()" title="Reset filter">Reset</a>
+                </li>
+            </ul>
+        </div>
+        <div id="map">
+            <div class="ol-toggle-options ol-unselectable"><a title="Toggle options toolbar" onClick="toggleControlPanel()" href="#toggle">...</a></div>
+        </div>
+        <div id="wrapper">
+            <div id="location"></div>
+            <div id="scale">
+            </div>
+            <div id="nodelist">
+                <em>Click on the map to get feature info</em>
+            </div>
+            <script type="text/javascript">
+                < script type = "text/javascript" >
+                            var pureCoverage = false;
                     // if this is just a coverage or a group of them, disable a few items,
                     // and default to jpeg format
                     var format = 'image/png';
-                    var bounds = [61142.97982352378, 80278.37184580402,
-                        323277.5226606917, 513741.0443522684];
+                    var bounds = [62439.5, 80431.1875,
+                        322122.34375, 513485.46875];
                     if (pureCoverage) {
                         document.getElementById('filterType').disabled = true;
                         document.getElementById('filter').disabled = true;
@@ -289,23 +290,23 @@
                     var untiled = new ol.layer.Image({
                         source: new ol.source.ImageWMS({
                             ratio: 1,
-                            url: 'http://localhost:8080/geoserver/NadiWimalasiri-GIS/wms',
+                            url: 'http://localhost:1024/geoserver/DilupaWimalasiri/wms',
                             params: {'FORMAT': format,
                                 'VERSION': '1.1.1',
                                 STYLES: '',
-                                LAYERS: 'NadiWimalasiri-GIS:NadiDilu',
+                                LAYERS: 'DilupaWimalasiri:Dilupa',
                             }
                         })
                     });
                     var tiled = new ol.layer.Tile({
                         visible: false,
                         source: new ol.source.TileWMS({
-                            url: 'http://localhost:8080/geoserver/NadiWimalasiri-GIS/wms',
+                            url: 'http://localhost:1024/geoserver/DilupaWimalasiri/wms',
                             params: {'FORMAT': format,
                                 'VERSION': '1.1.1',
                                 tiled: true,
                                 STYLES: '',
-                                LAYERS: 'NadiWimalasiri-GIS:NadiDilu',
+                                LAYERS: 'DilupaWimalasiri:Dilupa',
                             }
                         })
                     });
@@ -386,7 +387,6 @@
                             lyr.getSource().updateParams({'FORMAT': mime});
                         });
                     }
-
                     function setStyle(style) {
                         map.getLayers().forEach(function (lyr) {
                             lyr.getSource().updateParams({'STYLES': style});
@@ -412,15 +412,13 @@
 
                     function setHeight(size) {
                         var mapDiv = document.getElementById('map');
-                        if (size == "auto") {
-                            // reset back to the default value
+                        if (size == "auto") {           // reset back to the default value
                             mapDiv.style.height = null;
                         }
                         else {
                             mapDiv.style.height = size + "px";
                         }
-                        // notify OL that we changed the size of the map div
-                        map.updateSize();
+                        // notify OL that we changed the size of the map div         map.updateSize();
                     }
 
                     function updateFilter() {
@@ -471,17 +469,16 @@
                         map.updateSize()
                     }
 
-                </script>
-        </body>
 
-    </div>
+            </script>
+    </body>
 
     <a href="http://www.facebook.com/sharer.php?u=http://localhost/VisualizeInYourWay-sliit/VisualizeInYourWay/index.php/share/share_controller/manage_share" role="button" onclick=" _gaq.push(['_trackSocial', 'facebook', 'send', 'http://localhost/VisualizeInYourWay-sliit/VisualizeInYourWay/index.php/share/share_controller/manage_share']);
-            window.open(this.href, 'facebook', 'toolbar=0,status=0,width=480,height=420');
-            return false;" title="Share this article in Facebook" class="btn btn-info"><i class="icon-facebook"></i> <span class="hidden-phone">Facebook</span></a>
+                window.open(this.href, 'facebook', 'toolbar=0,status=0,width=480,height=420');
+                return false;" title="Share this article in Facebook" class="btn btn-info"><i class="icon-facebook"></i> <span class="hidden-phone">Facebook</span></a>
     <a href="http://twitter.com/share?url=http://localhost/VisualizeInYourWay-sliit/VisualizeInYourWay/index.php/share/share_controller/manage_share" role="button" onclick="_gaq.push(['_trackSocial', 'twitter', 'tweet', 'http://localhost/VisualizeInYourWay-sliit/VisualizeInYourWay/index.php/share/share_controller/manage_share']);
-            window.open(this.href, 'twitter', 'toolbar=0,status=0,width=480,height=360');
-            return false;" title="Share this article in Twitter" class="btn btn-success"><i class="icon-twitter"></i> <span class="hidden-phone">Twitter</span></a>
+                window.open(this.href, 'twitter', 'toolbar=0,status=0,width=480,height=360');
+                return false;" title="Share this article in Twitter" class="btn btn-success"><i class="icon-twitter"></i> <span class="hidden-phone">Twitter</span></a>
     <a type="button" id="google+_btn" class="btn btn-danger" href="https://plus.google.com/share?url=http://localhost/VisualizeInYourWay-sliit/VisualizeInYourWay/index.php/share/share_controller/manage_share">Google+</a>
 
     <a><form> <input type="button" id="print_btn" value=" Print " class="btn btn-primary"
